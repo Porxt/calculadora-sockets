@@ -1,25 +1,18 @@
 import socket
 import re
 
-directory = {
-    'pow' : None, 'mod' : None, 'sum' : None,
-    'sub' : None, 'mul' : None, 'div' : None
-}
+directory = {}
 
 def decode(data):
     strData = str(data)
+    decoded = {}
     match = re.search(
-        r"[a-z]{3}:\d+\.\d+(\.\d+\.\d+)?,\d+(\.\d+)?",
+        r"[a-z]{3}:([a-z]{3},)?\d+\.\d+(\.\d+\.\d+)?,\d+(\.\d+)?",
         strData
     )
     if match:
-        decoded = {
-            'operation' : strData[match.start() : strData.index(":")],
-            'data' : (
-                strData[strData.index(":") + 1 : strData.index(",")],
-                strData[strData.index(",") + 1 : match.end()]
-            )
-        }
+        decoded['operation'] = strData[match.start(): strData.index(":")]
+        decoded['data'] = strData[strData.index(":") + 1: match.end()]
     return decoded
 
 def call_server(server, data):
@@ -37,12 +30,15 @@ def call_server(server, data):
 
 def process(instr, directory):
     if instr['operation'] == 'reg':
-        directory[instr['operation']] = instr['data']
-    elif directory[instr['operation']]:
+        unfolded = instr['data'].split(",")
+        directory[unfolded[0]] = tuple(unfolded[1:])
+        result = "ok"
+    elif instr['operation'] in directory:
         result = call_server(directory[instr['operation']], instr['data'])
     else:
         result = "Imposible conectar"
     return str(result)
+
 
 # Create a UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
