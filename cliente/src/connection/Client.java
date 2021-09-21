@@ -1,7 +1,8 @@
 package connection;
 
 import util.Expression;
-// import java.io.*;
+
+import java.io.*;
 import java.net.*;
 
 public class Client {
@@ -14,34 +15,27 @@ public class Client {
         cs = new DatagramSocket();
     }
 
-    public String start(Expression expression) {
+    public String start(Expression expression) throws IOException {
         DatagramPacket message;
         byte[] buffer;
         DatagramPacket response;
-        try {
-            // Send message
-            message = new DatagramPacket(
-                expression.toString().getBytes(),
-                expression.toString().length(),
-                InetAddress.getByName(HOST),
-                PORT
-            );
-            cs.send(message);
+        
+        // Send message
+        message = new DatagramPacket(
+            expression.toString().getBytes(),
+            expression.toString().length(),
+            InetAddress.getByName(HOST),
+            PORT
+        );
+        cs.send(message);
 
-            // Receive response
-            buffer = new byte[1000];
-            response = new DatagramPacket(buffer, buffer.length);
-            cs.receive(response);
+        // Receive response
+        buffer = new byte[1000];
+        response = new DatagramPacket(buffer, buffer.length);
+        cs.receive(response);
 
-            // Prints response
-            System.out.println("Respuesta: " + new String(response.getData()));
-
-            // Close socket
-            cs.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            response = null;
-        }
+        // Close socket
+        cs.close();
 
         return new String(response.getData());
     }

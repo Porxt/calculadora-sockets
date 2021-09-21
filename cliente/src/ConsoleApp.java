@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 import connection.Client;
 import util.Expression;
@@ -25,7 +26,7 @@ public class ConsoleApp {
                 try {
                     client = new Client();
                     System.out.println(client.start(expression));
-                } catch(Exception e) {
+                } catch(IOException e) {
                     System.out.println(e.getMessage());
                 }
             }
