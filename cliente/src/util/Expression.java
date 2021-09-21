@@ -45,6 +45,6 @@ public class Expression {
 
     @Override
     public String toString() {
-        return operation + ": " + number1 + ", " + number2;
+        return operation + ":" + number1 + "," + number2;
     }
 }

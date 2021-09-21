@@ -1,34 +1,48 @@
 package connection;
 
 import util.Expression;
-import java.io.DataOutputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+// import java.io.*;
+import java.net.*;
 
-public class Client extends Connection {
-    public Client() throws IOException { super(); }
+public class Client {
+
+    private final int PORT = 20000;
+    private final String HOST = "localhost";
+    private DatagramSocket cs;
+
+    public Client() throws SocketException {
+        cs = new DatagramSocket();
+    }
 
     public String start(Expression expression) {
-        String response;
+        DatagramPacket message;
+        byte[] buffer;
+        DatagramPacket response;
         try {
-            // Flujo de datos hacia el servidor
-            output = new DataOutputStream(cs.getOutputStream());
+            // Send message
+            message = new DatagramPacket(
+                expression.toString().getBytes(),
+                expression.toString().length(),
+                InetAddress.getByName(HOST),
+                PORT
+            );
+            cs.send(message);
 
-            // Flujo de datos desde el servidor
-            input = new DataInputStream(cs.getInputStream());
+            // Receive response
+            buffer = new byte[1000];
+            response = new DatagramPacket(buffer, buffer.length);
+            cs.receive(response);
 
-            output.writeUTF(expression.toString());
+            // Prints response
+            System.out.println("Respuesta: " + new String(response.getData()));
 
-            response = input.readUTF();
-
-            cs.close();//Fin de la conexión
-
-        }
-        catch (Exception e) {
+            // Close socket
+            cs.close();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            response = e.getMessage();
+            response = null;
         }
 
-        return response;
+        return new String(response.getData());
     }
 }

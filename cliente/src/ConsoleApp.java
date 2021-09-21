@@ -1,6 +1,4 @@
-import java.io.IOException;
 import java.util.Scanner;
-
 import connection.Client;
 import util.Expression;
 
@@ -23,11 +21,13 @@ public class ConsoleApp {
             
             input = reader.nextLine();
             expression = Expression.build(input.replaceAll(" ", ""));
-            try {
-                client = new Client();
-                System.out.println(client.start(expression));
-            } catch(IOException e) {
-                System.out.println(e.getMessage());
+            if(expression != null) {
+                try {
+                    client = new Client();
+                    System.out.println(client.start(expression));
+                } catch(Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         } while(!input.equals("exit"));
         reader.close();
