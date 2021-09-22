@@ -1,7 +1,18 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import util.Expression;
+import connection.Client;
+import java.io.IOException;
 
 public class GraphicApp extends JFrame implements ActionListener {
     private JTextField screen;
@@ -61,7 +72,23 @@ public class GraphicApp extends JFrame implements ActionListener {
         buttonEqual = new JButton("=");
         buttonEqual.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO: Realiza operación
+                String text = screen.getText();
+                Expression expression;
+                Client client;
+
+                text = text.replaceAll("mod", "%");
+                text = text.replaceAll("pow", "**");
+                expression = Expression.build(text.replaceAll(" ", ""));
+                if(expression != null) {
+                    try {
+                        client = new Client();
+                        screen.setText(client.sendOperation(expression));
+                    } catch(IOException ex) {
+                        screen.setText(ex.getMessage());
+                    }
+                } else {
+                    screen.setText("Syntax Error");
+                }
             }
         });
 
