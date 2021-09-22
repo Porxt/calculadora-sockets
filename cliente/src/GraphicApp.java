@@ -10,15 +10,21 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import util.CalculatorHistory;
 import util.Expression;
 import connection.Client;
 import java.io.IOException;
 
 public class GraphicApp extends JFrame implements ActionListener {
+
     private JTextField screen;
+    private boolean isResult = false;
+    private CalculatorHistory history;
 
     public GraphicApp() {
         super("Calculadora");
+
+        history = new CalculatorHistory();
 
         setBounds(10, 10, 350, 325);
         initComponents();
@@ -75,6 +81,7 @@ public class GraphicApp extends JFrame implements ActionListener {
                 String text = screen.getText();
                 Expression expression;
                 Client client;
+                String result;
 
                 text = text.replaceAll("mod", "%");
                 text = text.replaceAll("pow", "**");
@@ -82,13 +89,14 @@ public class GraphicApp extends JFrame implements ActionListener {
                 if(expression != null) {
                     try {
                         client = new Client();
-                        screen.setText(client.sendOperation(expression));
+                        result = client.sendOperation(expression);
                     } catch(IOException ex) {
-                        screen.setText(ex.getMessage());
+                        result = ex.getMessage();
                     }
-                } else {
-                    screen.setText("Syntax Error");
-                }
+                    history.add(expression, result);
+                } else result = "Error de Sintaxis";
+                screen.setText(result);
+                isResult = true;
             }
         });
 
@@ -96,6 +104,7 @@ public class GraphicApp extends JFrame implements ActionListener {
         buttonClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 screen.setText("");
+                isResult = false;
             }
         });
 
@@ -104,7 +113,7 @@ public class GraphicApp extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(
                     null,
-                    "Aqui va el historial",
+                    history.last(),
                     "Historial",
                     JOptionPane.INFORMATION_MESSAGE
                 );
@@ -146,7 +155,12 @@ public class GraphicApp extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        String text = screen.getText();
+        String text;
+        if(isResult) {
+            screen.setText("");
+            text = "";
+            isResult = false;
+        } else text = screen.getText();
         JButton button = (JButton) e.getSource();
         text += button.getText();
         screen.setText(text);
