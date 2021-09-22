@@ -14,10 +14,10 @@ class ConnectionHelper:
         print('Starting up on {} port {}'.format(*server_address))
         self.sock.bind(server_address)
 
-    def registerAt(self, host, port, service) -> bool:
+    def registerAt(self, service) -> bool:
         message = bytes("reg:" + service, "utf-8")
         # Sends a registration request to the name server
-        sent = self.sock.sendto(message, (host, port))
+        sent = self.sock.sendto(message, ('localhost', 20000))
 
         # Receive status
         data, _ = self.sock.recvfrom(1024)
@@ -25,7 +25,7 @@ class ConnectionHelper:
         return self.registration_status
 
     @staticmethod
-    def _get_status(self, data) -> bool:
+    def _get_status(data) -> bool:
         message = str(data)
         status = False
         if message == "b'ok'":
