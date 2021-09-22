@@ -1,13 +1,13 @@
 package util;
 
-import java.util.LinkedList;
+import java.util.Stack;
 
 public class CalculatorHistory {
     
-    private LinkedList<String> operaciones;
+    private Stack<String> operations;
 
     public CalculatorHistory() {
-        operaciones = new LinkedList<>();
+        operations = new Stack<>();
     }
 
     public void add(Expression exp, String result) {
@@ -15,21 +15,21 @@ public class CalculatorHistory {
         int number2 = (int) exp.number2;
         if(number1 == exp.number1) {
             if(number2 == exp.number2) {
-                operaciones.add(
+                operations.push(
                     number1 + " " + exp.operator + " " + number2 + " = " + result
                 );
             } else {
-                operaciones.add(
+                operations.push(
                     number1 + " " + exp.operator + " " + exp.number2 + " = " + result
                 );
             }
         } else {
             if(number2 == exp.number2) {
-                operaciones.add(
+                operations.push(
                     exp.number1 + " " + exp.operator + " " + number2 + " = " + result
                 );
             } else {
-                operaciones.add(
+                operations.push(
                     exp.number1 + " " + exp.operator + " " + exp.number2 + " = " + result
                 );
             }
@@ -37,7 +37,17 @@ public class CalculatorHistory {
     }
 
     public String last() {
-        if(operaciones.size() == 0) return "No hay operaciones";
-        return operaciones.getLast();
+        if(operations.size() == 0) return "No hay operaciones";
+        return operations.toString();
+    }
+
+    public String[] getList() {
+        String[] operations = new String[this.operations.size()];
+        int index = 0;
+        for(Object operation : this.operations.toArray()) {
+            operations[index] = (String) operation;
+            index++;
+        }
+        return operations;
     }
 }
