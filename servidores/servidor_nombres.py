@@ -1,5 +1,6 @@
 import socket
 import re
+from connection import ConnectionHelper
 
 def decode(data):
     strData = str(data)
@@ -15,11 +16,10 @@ def decode(data):
 
 def ask_result_operation(server_address, data, sock):
     # Prepare the data to be sent
-    body = bytes(data, 'utf-8')
-
+    message = bytes(data, 'utf-8')
     try:
         # Sent data
-        sent = sock.sendto(body, server_address)
+        sent = sock.sendto(message, server_address)
 
         # Receive response
         data, _ = sock.recvfrom(1024)
@@ -39,18 +39,12 @@ def process(operation, directory, sock, address):
 
 directory = {}
 
-# Create a UDP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# Bind the socket to the port
-server_address = ('localhost', 20000)
-print('Starting up on {} port {}'.format(*server_address))
-sock.bind(server_address)
+helper = ConnectionHelper('localhost', 20000)
 
 # Listening to new messages
 while True:
     print('\nListening...')
-    data, address = sock.recvfrom(4096)
+    data, address = helper.sock.recvfrom(4096)
 
     print('\nReceived {} bytes from {}'.format(len(data), address))
     print(data)
@@ -60,8 +54,8 @@ while True:
         decoded = decode(data)
 
         # Performs the action requested by the client
-        result = process(decoded, directory, sock, address)
+        result = process(decoded, directory, helper.sock, address)
 
         # Send the result back to the client
-        sent = sock.sendto(result, address)
+        sent = helper.sock.sendto(result, address)
         print('\nSent {} bytes back to {}'.format(sent, address))
