@@ -33,9 +33,7 @@ public class Expression {
                     break;
                 }
             }
-        } else {
-            return null;
-        }
+        } else return null;
         return new Expression(
             operationName.get(expression.substring(index, isPow ? index + 2 : index + 1)),
             Double.parseDouble(expression.substring(0, index)),
