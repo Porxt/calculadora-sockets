@@ -22,7 +22,7 @@ def ask_result_operation(server_address, data, sock):
         sent = sock.sendto(body, server_address)
 
         # Receive response
-        data, _ = sock.recvfrom(4096)
+        data, _ = sock.recvfrom(1024)
     except:
         data = b"Fallo en la conexion"
     return data
