@@ -2,7 +2,6 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -20,6 +19,7 @@ public class GraphicApp extends JFrame implements ActionListener {
     private JTextField screen;
     private boolean isResult = false;
     private CalculatorHistory history;
+    protected boolean isHistoryOpen = false;
 
     public GraphicApp() {
         super("Calculadora");
@@ -27,13 +27,13 @@ public class GraphicApp extends JFrame implements ActionListener {
         history = new CalculatorHistory();
 
         setBounds(10, 10, 350, 325);
-        initComponents();
+        initComponents(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
     }
 
-    private void initComponents() {
+    private void initComponents(GraphicApp self) {
         JPanel buttons = new JPanel(new GridLayout(5, 4));
         JButton[] buttonsNumber;
         JButton buttonDot;
@@ -78,45 +78,46 @@ public class GraphicApp extends JFrame implements ActionListener {
         buttonEqual = new JButton("=");
         buttonEqual.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String text = screen.getText();
+                String text;
                 Expression expression;
                 Client client;
                 String result;
 
-                text = text.replaceAll("mod", "%");
-                text = text.replaceAll("pow", "**");
-                expression = Expression.build(text.replaceAll(" ", ""));
-                if(expression != null) {
-                    try {
-                        client = new Client();
-                        result = client.sendOperation(expression);
-                    } catch(IOException ex) {
-                        result = ex.getMessage();
-                    }
-                    history.add(expression, result);
-                } else result = "Error de Sintaxis";
-                screen.setText(result);
-                isResult = true;
+                if(!isHistoryOpen) {
+                    text = screen.getText();
+                    text = text.replaceAll("mod", "%");
+                    text = text.replaceAll("pow", "**");
+                    expression = Expression.build(text.replaceAll(" ", ""));
+                    if(expression != null) {
+                        try {
+                            client = new Client();
+                            result = client.sendOperation(expression);
+                        } catch(IOException ex) {
+                            result = ex.getMessage();
+                        }
+                        history.add(expression, result);
+                    } else result = "Error de Sintaxis";
+                    screen.setText(result);
+                    isResult = true;
+                }
             }
         });
 
         buttonClear = new JButton("CE");
         buttonClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                screen.setText("");
-                isResult = false;
+                if(!isHistoryOpen) {
+                    screen.setText("");
+                    isResult = false;
+                }
             }
         });
 
         buttonHist = new JButton("Hist");
         buttonHist.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(
-                    null,
-                    history.last(),
-                    "Historial",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                new History(self, history);
+                isHistoryOpen = true;
             }
         });
 
@@ -156,13 +157,16 @@ public class GraphicApp extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         String text;
-        if(isResult) {
-            screen.setText("");
-            text = "";
-            isResult = false;
-        } else text = screen.getText();
-        JButton button = (JButton) e.getSource();
-        text += button.getText();
-        screen.setText(text);
+        JButton button;
+        if(!isHistoryOpen) {
+            if(isResult) {
+                screen.setText("");
+                text = "";
+                isResult = false;
+            } else text = screen.getText();
+            button = (JButton) e.getSource();
+            text += button.getText();
+            screen.setText(text);
+        }
     }
 }
