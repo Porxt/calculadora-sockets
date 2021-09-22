@@ -3,12 +3,15 @@ package util;
 import java.util.HashMap;
 
 public class Expression {
+
     public final String operation;
     public final double number1;
     public final double number2;
+    public final String operator;
 
-    public Expression(String operation, double number1, double number2) {
+    public Expression(String operation, String operator, double number1, double number2) {
         this.operation = operation;
+        this.operator = operator;
         this.number1 = number1;
         this.number2 = number2;
     }
@@ -16,6 +19,7 @@ public class Expression {
     public static Expression build(String expression) {
         int index = -1;
         boolean isPow = false;
+        String symbol = "";
         HashMap<String, String> operationName = new HashMap<>();
         operationName.put("**", "pow");
         operationName.put("%", "mod");
@@ -27,6 +31,7 @@ public class Expression {
             for(String operator : operationName.keySet()) {
                 index = expression.indexOf(operator);
                 if(index != -1) {
+                    symbol = operator;
                     if(operator.equals("**")) {
                         isPow = true;
                     }
@@ -35,7 +40,8 @@ public class Expression {
             }
         } else return null;
         return new Expression(
-            operationName.get(expression.substring(index, isPow ? index + 2 : index + 1)),
+            operationName.get(symbol),
+            symbol,
             Double.parseDouble(expression.substring(0, index)),
             Double.parseDouble(expression.substring(isPow ? index + 2 : index + 1))
         );
