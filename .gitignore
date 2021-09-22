@@ -3,6 +3,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,windows,java,python
 
 ### Java ###
+# Compiled classes folder
+bin/
+
 # Compiled class file
 *.class
 
