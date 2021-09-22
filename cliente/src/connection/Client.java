@@ -15,7 +15,7 @@ public class Client {
         cs = new DatagramSocket();
     }
 
-    public String start(Expression expression) throws IOException {
+    public String sendOperation(Expression expression) throws IOException {
         DatagramPacket message;
         byte[] buffer;
         DatagramPacket response;

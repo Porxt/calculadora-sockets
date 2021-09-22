@@ -25,7 +25,7 @@ public class ConsoleApp {
             if(expression != null) {
                 try {
                     client = new Client();
-                    System.out.println(client.start(expression));
+                    System.out.println(client.sendOperation(expression));
                 } catch(IOException e) {
                     System.out.println(e.getMessage());
                 }
