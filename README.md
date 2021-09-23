@@ -73,11 +73,7 @@ Para ejecutar correctamente el proyecto deberemos seguir los siguientes pasos:
 3. Usa `python servidor_<nombre>.py` para ejecutar el servidor o servidores que quieras tener disponibles.
 4. Ejecuta la aplicación cliente en modo consola o grafico para empezar a hacer solicitudes al servidor de nombres.
 
-<<<<<<< HEAD
 En la [documentación](cliente/README.md) del Cliente se explica como compilar y ejecutar el cliente.
-=======
-En la documentación del Cliente se explica como compilar y ejecutar el cliente.
->>>>>>> 570f2e15f2d26199baf3c62e7f8209ae98c5c439
 
 ### Cliente – Modo consola
 
