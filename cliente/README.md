@@ -14,7 +14,7 @@ Para compilar hay que seguir los pasos siguientes:
 Se creará una carpeta bin dentro de cliente en la cual tendremos nuestro proyecto
 compilado y listo para ser ejecutado.
 
-Ejecutar
+## Ejecutar
 
 Vamos a la carpeta donde se guardó nuestro proyecto compilado, por defecto 
 `<proyecto>/cliente/bin/`, y ejecutamos uno de los siguientes comandos:
