@@ -1,18 +1,23 @@
-## Getting Started
+# Cliente
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+El programa cliente fue escrito en Java (v14) y requiere ser compilado previamente
+antes de ejecutarlo. A continuación, se muestran los pasos para hacer esto de
+forma manual, sin la necesidad de tener VS Code listo para Java o un IDE.
 
-## Folder Structure
+## Compilar
 
-The workspace contains two folders by default, where:
+Para compilar hay que seguir los pasos siguientes:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+1. Abrir una consola o terminal y posicionarnos en la ruta `<proyecto>/cliente/src/`
+2. Ejecutar el siguiente comando: `javac -d ../bin Run.java.`
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+Se creará una carpeta bin dentro de cliente en la cual tendremos nuestro proyecto
+compilado y listo para ser ejecutado.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Ejecutar
 
-## Dependency Management
+Vamos a la carpeta donde se guardó nuestro proyecto compilado, por defecto 
+`<proyecto>/cliente/bin/`, y ejecutamos uno de los siguientes comandos:
+- `java Run` – Ejecuta el cliente en modo consola
+- `java Run --gui` o `java Run -g` – Ejecuta el cliente con interfaz gráfica.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
