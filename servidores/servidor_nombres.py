@@ -1,4 +1,3 @@
-import socket
 import re
 from connection import ConnectionHelper
 
