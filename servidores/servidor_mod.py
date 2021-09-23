@@ -2,6 +2,9 @@ import re
 from connection import ConnectionHelper
 
 def mod(a, b):
+    if b == 0:
+        return "Division por cero"
+    
     r = a % b
     ri = int(r)
     if r == ri:
