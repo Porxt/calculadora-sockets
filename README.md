@@ -13,7 +13,7 @@ sino en dar un ejemplo introductorio a la programación y uso de sockets.
 
 El proyecto se basa en la arquitectura siguiente
 
-![Arquitectura](https://drive.google.com/file/d/1ZHSeOXsUuqO0oW85i3kh8eIeiR7Kkfeb/view?usp=sharing)
+![Arquitectura](arquitectura.png)
 
 Una vez iniciado el servidor de nombres, iniciamos los servidores que ofrecen
 los distintos servicios y estos (1) enviaran una solicitud de registro al
