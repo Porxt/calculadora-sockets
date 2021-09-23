@@ -14,13 +14,8 @@ sino en dar un ejemplo introductorio a la programación y uso de sockets.
 El proyecto está estructurado en dos carpetas cliente y servidor.
 
 - **cliente:** Contiene la carpeta src donde está el código sin compilar de la
-<<<<<<< HEAD
   calculadora para saber más sobre el cliente y como compilarlo vaya a su
   [documentación](cliente/README.md).
-=======
-  calculadora para saber más sobre comó funciona el cliente y como compilarlo
-  vaya a su documentación.
->>>>>>> 570f2e15f2d26199baf3c62e7f8209ae98c5c439
 - **servidor:** Contiene los servidores cuyos scripts siguen el siguiente
   formato de nombramiento: `servidor\<nombre>.py`, en la sección de servidores
   tiene la lista de los nombres de los servidores, y la clase `ConnectionHelper`
@@ -73,11 +68,7 @@ Para ejecutar correctamente el proyecto deberemos seguir los siguientes pasos:
 3. Usa `python servidor_<nombre>.py` para ejecutar el servidor o servidores que quieras tener disponibles.
 4. Ejecuta la aplicación cliente en modo consola o grafico para empezar a hacer solicitudes al servidor de nombres.
 
-<<<<<<< HEAD
 En la [documentación](cliente/README.md) del Cliente se explica como compilar y ejecutar el cliente.
-=======
-En la documentación del Cliente se explica como compilar y ejecutar el cliente.
->>>>>>> 570f2e15f2d26199baf3c62e7f8209ae98c5c439
 
 ### Cliente – Modo consola
 
