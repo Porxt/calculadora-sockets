@@ -30,7 +30,7 @@ public class Client {
         cs.send(message);
 
         // Receive response
-        buffer = new byte[1000];
+        buffer = new byte[1024];
         response = new DatagramPacket(buffer, buffer.length);
         cs.receive(response);
 
