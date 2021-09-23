@@ -31,3 +31,9 @@ class ConnectionHelper:
         if message == "b'ok'":
             status = True
         return status
+
+    @staticmethod
+    def get_ip():
+        host_name = socket.gethostname()
+        ip = socket.gethostbyname(host_name)
+        return ip
